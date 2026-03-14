@@ -1,15 +1,16 @@
-const navLabels = [
-  "Paper Preservation",
-  "Digital Preservation",
-  "Media Resources",
-  "Disaster Management",
-  "Supplies & Vendors",
-  "FAQ",
+const navItems = [
+  { label: "Paper Preservation", href: "paper-preservation.html" },
+  { label: "Digital Preservation", href: "digital-preservation.html" },
+  { label: "Media Resources", href: "media-resources.html" },
+  { label: "Disaster Management", href: "disaster-management.html" },
+  { label: "Supplies & Vendors", href: "supplies-vendors.html" },
+  { label: "FAQ", href: "faq.html" },
 ];
 
 const mainNavList = document.getElementById("mainNavList");
 const panelNavList = document.getElementById("panelNavList");
 const menuToggle = document.getElementById("menuToggle");
+const menuClose = document.getElementById("menuClose");
 const menuPanel = document.getElementById("menuPanel");
 const menuBackdrop = document.getElementById("menuBackdrop");
 const mobileQuery = window.matchMedia("(max-width: 768px)");
@@ -18,31 +19,40 @@ function isMobileViewport() {
   return mobileQuery.matches;
 }
 
-function createNavItem(label, className) {
+function createNavItem({ label, href }, className) {
   const li = document.createElement("li");
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = className;
-  button.textContent = label;
-  button.setAttribute("aria-label", `${label} section`);
-  li.appendChild(button);
+  const link = document.createElement("a");
+  link.className = className;
+  link.href = href;
+  link.textContent = label;
+  link.setAttribute("aria-label", `${label} page`);
+  li.appendChild(link);
   return li;
 }
 
 function buildNavLists() {
-  const mainFragment = document.createDocumentFragment();
-  const panelFragment = document.createDocumentFragment();
+  if (mainNavList) {
+    const mainFragment = document.createDocumentFragment();
+    navItems.forEach((item) => {
+      mainFragment.appendChild(createNavItem(item, "nav-button"));
+    });
+    mainNavList.appendChild(mainFragment);
+  }
 
-  navLabels.forEach((label) => {
-    mainFragment.appendChild(createNavItem(label, "nav-button"));
-    panelFragment.appendChild(createNavItem(label, "menu-link"));
-  });
-
-  mainNavList.appendChild(mainFragment);
-  panelNavList.appendChild(panelFragment);
+  if (panelNavList) {
+    const panelFragment = document.createDocumentFragment();
+    navItems.forEach((item) => {
+      panelFragment.appendChild(createNavItem(item, "menu-link"));
+    });
+    panelNavList.appendChild(panelFragment);
+  }
 }
 
 function setMenuState(isOpen) {
+  if (!menuPanel || !menuToggle || !menuBackdrop) {
+    return;
+  }
+
   menuPanel.classList.toggle("open", isOpen);
   menuPanel.setAttribute("aria-hidden", String(!isOpen));
   menuToggle.setAttribute("aria-expanded", String(isOpen));
@@ -55,7 +65,7 @@ function setMenuState(isOpen) {
 }
 
 function toggleMenu() {
-  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+  const isOpen = menuToggle?.getAttribute("aria-expanded") === "true";
   setMenuState(!isOpen);
 }
 
@@ -64,15 +74,17 @@ function closeMenu() {
 }
 
 function attachEvents() {
+  if (!menuToggle || !menuPanel || !menuBackdrop) {
+    return;
+  }
+
   menuToggle.addEventListener("click", toggleMenu);
+  menuClose?.addEventListener("click", closeMenu);
   menuBackdrop.addEventListener("click", closeMenu);
 
   menuPanel.addEventListener("click", (event) => {
     const target = event.target;
-    if (
-      (target instanceof HTMLButtonElement || target instanceof HTMLAnchorElement) &&
-      target.classList.contains("menu-link")
-    ) {
+    if (target instanceof HTMLAnchorElement && target.classList.contains("menu-link")) {
       closeMenu();
     }
   });
