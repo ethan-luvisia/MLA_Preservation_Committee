@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MLA Preservation Committee</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" role="banner">
+        <div class="header-inner">
+          <a class="brand" href="#" aria-label="MLA Preservation Committee Home">
+            <img
+              src="mla_logo-teal-nzcoplxkh1x6svwjot8c7js79phdq0rekm5seme67c.png"
+              alt="MLA logo"
+              class="brand-logo"
+            />
+            <div class="brand-text">
+              <p class="brand-kicker">Modern Language Association</p>
+              <h1 class="brand-title">Preservation Committee</h1>
+            </div>
+          </a>
+
+          <button
+            id="menuToggle"
+            class="menu-toggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="menuPanel"
+          >
+            <span class="menu-bar" aria-hidden="true"></span>
+            <span class="menu-bar" aria-hidden="true"></span>
+            <span class="menu-bar" aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content" id="mainContent" role="main">
+        <div class="main-overlay" aria-hidden="true"></div>
+        <section class="hero" aria-labelledby="heroTitle">
+          <div class="hero-copy">
+            <p class="hero-eyebrow">Stewardship, Access, and Longevity</p>
+            <h2 id="heroTitle">Preserving Scholarly Records for Future Generations</h2>
+            <p>
+              Explore committee activity, initiatives, and resources supporting archival
+              continuity across language and literature communities.
+            </p>
+          </div>
+
+          <nav class="primary-nav" aria-label="Primary navigation">
+            <ul id="mainNavList" class="nav-grid"></ul>
+          </nav>
+        </section>
+      </main>
+
+      <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+          <p>MLA Preservation Committee</p>
+          <p>Working draft interface prototype</p>
+        </div>
+      </footer>
+    </div>
+
+    <div id="menuBackdrop" class="menu-backdrop" hidden></div>
+    <aside
+      id="menuPanel"
+      class="menu-panel"
+      aria-label="Navigation menu"
+      aria-hidden="true"
+    >
+      <nav aria-label="Menu navigation">
+        <ul id="panelNavList" class="menu-list"></ul>
+      </nav>
+    </aside>
+  </body>
+</html>
