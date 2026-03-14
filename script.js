@@ -1,10 +1,10 @@
 const navLabels = [
-  "About",
-  "Projects",
-  "Resources",
-  "Events",
-  "Committee",
-  "Contact",
+  "Paper Preservation",
+  "Digital Preservation",
+  "Media Resources",
+  "Disaster Management",
+  "Supplies & Vendors",
+  "FAQ",
 ];
 
 const mainNavList = document.getElementById("mainNavList");
@@ -12,6 +12,11 @@ const panelNavList = document.getElementById("panelNavList");
 const menuToggle = document.getElementById("menuToggle");
 const menuPanel = document.getElementById("menuPanel");
 const menuBackdrop = document.getElementById("menuBackdrop");
+const mobileQuery = window.matchMedia("(max-width: 768px)");
+
+function isMobileViewport() {
+  return mobileQuery.matches;
+}
 
 function createNavItem(label, className) {
   const li = document.createElement("li");
@@ -45,7 +50,8 @@ function setMenuState(isOpen) {
     "aria-label",
     isOpen ? "Close navigation menu" : "Open navigation menu"
   );
-  menuBackdrop.hidden = !isOpen;
+  menuBackdrop.hidden = !isOpen || isMobileViewport();
+  document.body.classList.toggle("menu-open", isOpen && isMobileViewport());
 }
 
 function toggleMenu() {
@@ -63,7 +69,10 @@ function attachEvents() {
 
   menuPanel.addEventListener("click", (event) => {
     const target = event.target;
-    if (target instanceof HTMLButtonElement && target.classList.contains("menu-link")) {
+    if (
+      (target instanceof HTMLButtonElement || target instanceof HTMLAnchorElement) &&
+      target.classList.contains("menu-link")
+    ) {
       closeMenu();
     }
   });
@@ -77,7 +86,7 @@ function attachEvents() {
 
   document.addEventListener("click", (event) => {
     const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-    if (!isOpen) {
+    if (!isOpen || isMobileViewport()) {
       return;
     }
 
@@ -89,6 +98,12 @@ function attachEvents() {
     ) {
       closeMenu();
     }
+  });
+
+  mobileQuery.addEventListener("change", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    menuBackdrop.hidden = !isOpen || isMobileViewport();
+    document.body.classList.toggle("menu-open", isOpen && isMobileViewport());
   });
 }
 
